@@ -12,7 +12,9 @@ exports.review_create = function (req, res, next) {
         {
             textReview: req.body.textReview,
             gambar: req.body.gambar,
-            jmlBintang: req.body.jmlBintang
+            jmlBintang: req.body.jmlBintang,
+            user: req.body.user,
+            waktu: req.body.waktu,
         }
     );
 
