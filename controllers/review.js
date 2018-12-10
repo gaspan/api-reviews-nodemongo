@@ -49,10 +49,6 @@ exports.review_update = function (req, res, next) {
 };
 
 exports.review_delete = function (req, res) {
-    // Reviews.findByIdAndRemove(req.params.id, function (err) {
-    //     if (err) return next(err);
-    //     res.send('Deleted successfully!');
-    // })
     Reviews.findByIdAndRemove(req.params.id).then(data => {
         res.json('Deleted successfully!')
     }).catch(err => {
