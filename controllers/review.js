@@ -1,9 +1,11 @@
 var Reviews = require('../models/reviews');
 
 exports.review_get_all = function (req, res, next) {
-    Reviews.find({}, function (err, review) {
-        if (err) return next(err);
-        res.send(review);
+    Reviews.find({}).then(data => {
+        res.json(data);
+    } ).catch(err => {
+        res.json(err)
+        res.status(500)
     })
 };
 
@@ -17,32 +19,44 @@ exports.review_create = function (req, res, next) {
             waktu: req.body.waktu,
         }
     );
-
-    review.save(function (err) {
-        if (err) {
-            return next(err);
-        }
-        res.send('Reviews Created successfully')
+    review.save().then(data => {
+        res.json('Reviews Created successfully')
+    }).catch(err => {
+        res.json(err)
+        res.status(500)
     })
+    
 };
 
 exports.review_details = function (req, res, next) {
-    Reviews.findById(req.params.id, function (err, review) {
-        if (err) return next(err);
-        res.send(review);
-    })
+     Reviews.findById(req.params.id).then(data => {
+        res.json(data)
+     }).catch(err => {
+        res.json(err)
+        res.status(500)
+     })
+    
 };
 
 exports.review_update = function (req, res, next) {
-    Reviews.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, review) {
-        if (err) return next(err);
-        res.send('Reviews udpated.');
-    });
+    Reviews.findByIdAndUpdate(req.params.id, {$set: req.body}) .then(data => {
+        res.json('Reviews udpated.')
+    }).catch(err => {
+        res.json(err)
+        res.status(500)
+    })
+
 };
 
 exports.review_delete = function (req, res) {
-    Reviews.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
-        res.send('Deleted successfully!');
+    // Reviews.findByIdAndRemove(req.params.id, function (err) {
+    //     if (err) return next(err);
+    //     res.send('Deleted successfully!');
+    // })
+    Reviews.findByIdAndRemove(req.params.id).then(data => {
+        res.json('Deleted successfully!')
+    }).catch(err => {
+        res.json(err)
+        res.status(500)
     })
 };
